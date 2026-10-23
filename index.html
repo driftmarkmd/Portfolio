@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bramblewood Pet Grooming (sample site)</title>
+  <meta name="description" content="Sample small business website with click-to-call, hours, map, contact form and an FAQ chatbot. Bramblewood Pet Grooming is a fictional business.">
+  <style>
+    :root{--bg:#fffdf8;--ink:#1e2a22;--muted:#5d6b61;--line:#e7e2d6;--card:#fff;--green:#2f6b4f;--green-ink:#fff;--sand:#f4efe3;--radius:14px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+    a{color:var(--green)}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+    .sample-bar{background:#fff4d6;color:#6b4c00;border-bottom:1px solid #f0d48a;font-size:.85rem;text-align:center;padding:8px 16px}
+    .sample-bar a{color:#6b4c00;font-weight:600}
+    header{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
+    .nav{display:flex;justify-content:space-between;align-items:center;height:64px;gap:12px}
+    .brand{font-weight:800;font-size:1.2rem;text-decoration:none;color:var(--ink)}
+    .brand small{display:block;font-weight:500;font-size:.75rem;color:var(--muted);letter-spacing:.04em}
+    .btn{display:inline-block;background:var(--green);color:var(--green-ink)!important;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:700;border:2px solid var(--green);cursor:pointer;font-size:1rem}
+    .btn-ghost{background:transparent;color:var(--green)!important}
+    .hero{padding:64px 20px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+    h1{font-size:clamp(2rem,4.4vw,3rem);line-height:1.1;margin:0 0 16px;letter-spacing:-.02em}
+    .lead{color:var(--muted);font-size:1.1rem;margin:0 0 24px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap}
+    .hero-card{background:var(--sand);border-radius:var(--radius);padding:24px;border:1px solid var(--line)}
+    .hero-card h2{font-size:1.1rem;margin:0 0 10px}
+    .open-now{display:inline-block;background:#e3f2e9;color:var(--green);font-weight:700;font-size:.85rem;padding:3px 10px;border-radius:999px;margin-bottom:10px}
+    .hours{width:100%;border-collapse:collapse;font-size:.95rem}
+    .hours td{padding:5px 0;border-bottom:1px solid var(--line)}
+    .hours td:last-child{text-align:right}
+    section{padding:56px 0}
+    section.alt{background:var(--sand)}
+    h2{font-size:clamp(1.5rem,3vw,2rem);margin:0 0 8px}
+    .intro{color:var(--muted);margin:0 0 28px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+    .card h3{margin:0 0 6px}
+    .price{font-weight:800;font-size:1.3rem;color:var(--green);margin:0 0 8px}
+    .card p{margin:0;color:var(--muted)}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+    .map{width:100%;height:320px;border:1px solid var(--line);border-radius:var(--radius)}
+    form{display:grid;gap:12px}
+    label{font-weight:600;font-size:.92rem}
+    input,textarea,select{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+    .form-note{font-size:.9rem;color:var(--green);font-weight:600;min-height:1.4em}
+    footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:.85rem}
+    /* chatbot */
+    .chat-toggle{position:fixed;right:20px;bottom:20px;z-index:20;background:var(--green);color:#fff;border:0;border-radius:999px;padding:14px 20px;font-weight:700;font-size:1rem;box-shadow:0 6px 20px rgba(0,0,0,.18);cursor:pointer}
+    .chat{position:fixed;right:20px;bottom:84px;z-index:20;width:340px;max-width:calc(100vw - 32px);height:460px;max-height:calc(100vh - 120px);background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.2);display:none;flex-direction:column;overflow:hidden}
+    .chat.open{display:flex}
+    .chat-head{background:var(--green);color:#fff;padding:12px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+    .chat-head button{background:none;border:0;color:#fff;font-size:1.3rem;cursor:pointer;line-height:1}
+    .chat-log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:#fbfaf6}
+    .msg{max-width:85%;padding:9px 12px;border-radius:14px;font-size:.93rem;line-height:1.45}
+    .bot{background:#fff;border:1px solid var(--line);align-self:flex-start}
+    .me{background:var(--green);color:#fff;align-self:flex-end}
+    .chips{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px 0;background:#fbfaf6}
+    .chips button{font:inherit;font-size:.82rem;border:1px solid var(--green);color:var(--green);background:#fff;border-radius:999px;padding:4px 10px;cursor:pointer}
+    .chat-form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+    .chat-form input{flex:1}
+    .chat-form button{background:var(--green);color:#fff;border:0;border-radius:10px;padding:0 14px;font-weight:700;cursor:pointer}
+    @media (max-width:820px){.hero,.two{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+    @media (max-width:520px){.call-top .num{display:none}.hero{padding-top:40px}.chat-toggle{right:12px;bottom:12px}}
+    .call-top{white-space:nowrap}
+  </style>
+</head>
+<body>
+  <div class="sample-bar">Sample site built by Driftmark to show the local business starter pack. Bramblewood Pet Grooming is a fictional business. <a href="../index.html">Back to portfolio</a></div>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top">Bramblewood Pet Grooming<small>Southern Maryland</small></a>
+      <a class="btn call-top" href="tel:+13015550142">Call<span class="num"> (301) 555-0142</span></a>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <h1>Calm, careful grooming for dogs and cats.</h1>
+        <p class="lead">Baths, haircuts and nail trims by appointment, with small-group scheduling so your pet isn't waiting in a crate all day.</p>
+        <div class="cta">
+          <a class="btn" href="tel:+13015550142">Call to book</a>
+          <a class="btn btn-ghost" href="#contact">Request an appointment</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <span class="open-now" id="open-now">Hours</span>
+        <h2>Hours</h2>
+        <table class="hours">
+          <tr><td>Monday</td><td>Closed</td></tr>
+          <tr><td>Tuesday to Friday</td><td>8:00 am to 5:00 pm</td></tr>
+          <tr><td>Saturday</td><td>8:00 am to 2:00 pm</td></tr>
+          <tr><td>Sunday</td><td>Closed</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <section class="alt" id="services">
+      <div class="wrap">
+        <h2>Services and prices</h2>
+        <p class="intro">Prices are starting points by size and coat. We confirm the exact price when you book.</p>
+        <div class="grid">
+          <div class="card"><h3>Bath and tidy</h3><p class="price">from $45</p><p>Bath, blow-dry, brush-out, nail trim, ear cleaning.</p></div>
+          <div class="card"><h3>Full groom</h3><p class="price">from $65</p><p>Everything in Bath and tidy plus a full haircut in the style you choose.</p></div>
+          <div class="card"><h3>Nail trim (walk-in)</h3><p class="price">$15</p><p>No appointment needed during open hours. About 10 minutes.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap two">
+        <div>
+          <h2>Find us</h2>
+          <p class="intro">Free parking out front. Sample location shown on the map.</p>
+          <iframe class="map" title="Map" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=-77.180%2C38.585%2C-77.140%2C38.610&amp;layer=mapnik"></iframe>
+        </div>
+        <div>
+          <h2>Request an appointment</h2>
+          <p class="intro">We reply within one business day. For same-day questions, call us.</p>
+          <form id="contact-form">
+            <div><label for="name">Your name</label><input id="name" required autocomplete="name"></div>
+            <div><label for="phone">Phone or email</label><input id="phone" required></div>
+            <div><label for="svc">Service</label><select id="svc"><option>Bath and tidy</option><option>Full groom</option><option>Nail trim</option><option>Not sure yet</option></select></div>
+            <div><label for="note">Pet's name, breed and anything we should know</label><textarea id="note" rows="3"></textarea></div>
+            <button class="btn" type="submit">Send request</button>
+            <p class="form-note" id="form-note" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">Sample site. Bramblewood Pet Grooming, its phone number (555) and prices are made up for demonstration. Map data © OpenStreetMap contributors.</div></footer>
+
+  <button class="chat-toggle" id="chat-toggle" aria-expanded="false" aria-controls="chat">Questions? Chat with us</button>
+  <div class="chat" id="chat" role="dialog" aria-label="Chat">
+    <div class="chat-head">Bramblewood helper <button id="chat-close" aria-label="Close chat">×</button></div>
+    <div class="chat-log" id="chat-log" aria-live="polite"></div>
+    <div class="chips" id="chips"></div>
+    <form class="chat-form" id="chat-form"><input id="chat-input" placeholder="Ask about hours, prices, booking…" autocomplete="off" aria-label="Your question"><button type="submit">Send</button></form>
+  </div>
+
+  <script>
+    // Open-now badge (Eastern time not enforced; uses the visitor's clock, fine for a sample)
+    (function(){
+      var d=new Date(),day=d.getDay(),h=d.getHours()+d.getMinutes()/60,open=false;
+      if(day>=2&&day<=5)open=h>=8&&h<17; else if(day===6)open=h>=8&&h<14;
+      document.getElementById('open-now').textContent=open?'Open now':'Closed now';
+    })();
+
+    document.getElementById('contact-form').addEventListener('submit',function(e){
+      e.preventDefault();
+      document.getElementById('form-note').textContent='Thanks! On a real site this request is emailed to the owner. (Sample: nothing was sent.)';
+      this.reset();
+    });
+
+    // FAQ chatbot: answers only owner-approved questions, otherwise collects contact details
+    var FAQ=[
+      {k:['hour','open','close','today','saturday','sunday','monday'],a:'We\'re open Tuesday to Friday 8 am to 5 pm and Saturday 8 am to 2 pm. Closed Sunday and Monday.'},
+      {k:['price','cost','how much','charge','rate'],a:'Bath and tidy starts at $45, a full groom starts at $65, and walk-in nail trims are $15. We confirm the exact price by size and coat when you book.'},
+      {k:['book','appointment','schedule','availab'],a:'You can call (301) 555-0142 or use the request form on this page. We reply within one business day.'},
+      {k:['walk','nail'],a:'Nail trims are walk-in during open hours, no appointment needed. Grooms are by appointment.'},
+      {k:['cat','cats'],a:'Yes, we groom cats. We book them in quiet time slots away from dogs.'},
+      {k:['vaccin','rabies','shot'],a:'We ask for proof of a current rabies vaccine. You can bring paperwork or have your vet email it.'},
+      {k:['where','address','locat','park','direction'],a:'Scroll down to "Find us" for the map. There\'s free parking out front.'},
+      {k:['long','how long','time take','pick up'],a:'Most grooms take 2 to 3 hours. We text you when your pet is ready.'}
+    ];
+    var log=document.getElementById('chat-log'),chips=document.getElementById('chips'),input=document.getElementById('chat-input');
+    var mode='faq',lead={};
+    function say(text,who){var m=document.createElement('div');m.className='msg '+(who||'bot');m.textContent=text;log.appendChild(m);log.scrollTop=log.scrollHeight;}
+    function setChips(list){chips.innerHTML='';list.forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=t;b.onclick=function(){handle(t)};chips.appendChild(b);});}
+    function answer(q){
+      var s=q.toLowerCase();
+      for(var i=0;i<FAQ.length;i++){for(var j=0;j<FAQ[i].k.length;j++){if(s.indexOf(FAQ[i].k[j])!==-1)return FAQ[i].a;}}
+      return null;
+    }
+    function handle(q){
+      if(!q.trim())return;
+      say(q,'me');
+      if(mode==='name'){lead.name=q;mode='contact';say('Thanks, '+q+'. What\'s the best phone number or email to reach you?');return;}
+      if(mode==='contact'){lead.contact=q;mode='faq';say('Got it. On the real site this goes straight to the owner\'s email, and they\'ll get back to you within one business day. (Sample: nothing was sent.)');setChips(['Hours','Prices','Book a groom']);return;}
+      var a=answer(q);
+      if(a){say(a);}
+      else{lead.question=q;mode='name';say('I don\'t want to guess on that one. I\'ll pass your question to the owner. What\'s your name?');setChips([]);}
+    }
+    document.getElementById('chat-form').addEventListener('submit',function(e){e.preventDefault();var q=input.value;input.value='';handle(q);});
+    var chat=document.getElementById('chat'),toggle=document.getElementById('chat-toggle');
+    function openChat(){chat.classList.add('open');toggle.setAttribute('aria-expanded','true');if(!log.children.length){say('Hi! I can answer questions about hours, prices, booking and more.');setChips(['Hours','Prices','Book a groom','Do you groom cats?']);}input.focus();}
+    toggle.onclick=function(){chat.classList.contains('open')?(chat.classList.remove('open'),toggle.setAttribute('aria-expanded','false')):openChat();};
+    document.getElementById('chat-close').onclick=function(){chat.classList.remove('open');toggle.setAttribute('aria-expanded','false');};
+  </script>
+</body>
+</html>
